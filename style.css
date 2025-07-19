@@ -13,7 +13,7 @@ body {
 }
 .back_img {
     position: absolute;
-    display: flex;
+    display: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -29,4 +29,38 @@ body {
     display: flex;
     width: auto;
     height: 100px;
+    z-index: 10;
+}
+.first_page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+}
+#placeholder {
+    background-color: white;
+    box-sizing: border-box;
+    max-width: 80vw;
+    max-height: 80vh;
+
+    width: auto;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+#button {
+    display: flex;
+    padding: 12px 30px;
+    margin: 10px;
+    background: white;
+    border: 3px solid black;
+    font-size: 20px;
+    user-select: none;
+    margin-top: 35vh;
 }
