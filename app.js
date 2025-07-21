@@ -101,5 +101,4 @@ button.addEventListener('click', function(event){
     document.addEventListener("keydown", key_event_handler);
     document.addEventListener("mousemove", mouse_event_handler);
     next_background();
-    next_background();
 })
