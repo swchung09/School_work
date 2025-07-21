@@ -27,8 +27,8 @@ body {
 .character {
     position: absolute;
     display: flex;
-    width: auto;
-    height: 100px;
+    width: 10%;
+    height: auto;
     z-index: 10;
 }
 .first_page {
@@ -39,6 +39,9 @@ body {
     width: 100vw;
     height: 100vh;
     box-sizing: border-box;
+}
+.relative_background {
+    z-index: 10;
 }
 #placeholder {
     background-color: white;
