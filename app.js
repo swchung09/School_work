@@ -46,7 +46,7 @@ async function mouse_event_handler(event) {
             break;
         case 2:
             if (x < 0.01 && 0.5 < y){
-                console.log(x, y, 's');
+                next_background();
             }
             break;
         case 4:
