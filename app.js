@@ -1,5 +1,5 @@
 let current_background = 0, x = 0, y = 0
-let background = [], relative = [], main_character, placeholder, button, found_code = 0, temp;
+let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp;
 
 //추가된 부분 (히트박스 핸들링 위함)
 //--------------------------------------------------------------------------------------
@@ -106,6 +106,23 @@ async function mouse_event_handler(event) {
                     });
                 }
             }
+            break;
+        case 5:
+            if (0.83 < x && 0.74 < y){// && found_phone && found_key
+                console.log(x, y, 's');
+            }
+            break;
+        case 6:
+            if (0.45 < x && x < 0.6 && y < 0.1){
+                next_background();
+            }
+            break;
+        case 7:
+            if (0.35 < x && x < 0.6 && 0.9 < y){
+                next_background();
+            }
+            break;
+        case 8:
             break;
     }
     reload_object();
@@ -257,8 +274,6 @@ button.addEventListener('click', function(event){
     document.addEventListener("keydown", key_event_handler);
     document.addEventListener("mousemove", mouse_event_handler);
     window.addEventListener("resize", reload_object);
-    next_background();
-    next_background();
 
 //추가된 부분 (히트박스 핸들링 위함)
 //--------------------------------------------------------------------------------------
