@@ -12,6 +12,7 @@ for (let i = 0; i < 7; i++){
     background[i] = document.getElementById(`background${i+1}`);
     relative[i] = document.getElementById(`background-r${i+1}`);
 }
+
 main_character = document.getElementById('main_character');
 placeholder = document.getElementById('placeholder')
 button = document.getElementById('button')
