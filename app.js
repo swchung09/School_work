@@ -1,14 +1,10 @@
 let current_background = 0, x = 0, y = 0
 let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp;
 
-//추가된 부분 (히트박스 핸들링 위함)
-//--------------------------------------------------------------------------------------
-let mouse_pos = {x:0, y:0}; // 히트박스 처리 위한 마우스 포인터 위치값 저장
 let check_intv = null; // 히트박스 처리 함수 호출 주기
 const obstacle = []; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
-//--------------------------------------------------------------------------------------
 
-for (let i = 0; i < 7; i++){
+for (let i = 0; i < 8; i++){
     background[i] = document.getElementById(`background${i+1}`);
     relative[i] = document.getElementById(`background-r${i+1}`);
 }
@@ -17,8 +13,9 @@ main_character = document.getElementById('main_character');
 placeholder = document.getElementById('placeholder')
 button = document.getElementById('button')
 function next_background(){
+    temp = null;
     current_background++;
-    for (let i = 0; i < 7; i++){
+    for (let i = 0; i < 8; i++){
         background[i].style.display = 'none';
         if (relative[i]){
             relative[i].style.display = 'none';
@@ -37,13 +34,7 @@ async function mouse_event_handler(event) {
     var rect = background[current_background - 1].getBoundingClientRect();
     var charrect = main_character.getBoundingClientRect();
     let x = event.clientX;
-    let y = event.clientY;
-    
-//추가된 부분 (히트박스 핸들링 위함)
-//--------------------------------------------------------------------------------------
-    mouse_pos.x = event.clientX; //x, y값 mouse_pos로 받음, 받은 값은 checker() 를 통해서 히트 체킹
-    mouse_pos.y = event.clientY;
-//--------------------------------------------------------------------------------------    
+    let y = event.clientY;    
     
     x -= charrect.width / 2;
     y -= charrect.height;
@@ -55,6 +46,7 @@ async function mouse_event_handler(event) {
     main_character.style.top = y + 'px';
     x = (event.clientX - rect.left) / rect.width;
     y = (event.clientY - rect.top) / rect.height;
+
     switch (current_background){
         case 1:
             if (0.93 < x && 0.71 < y){
@@ -67,7 +59,7 @@ async function mouse_event_handler(event) {
             }
             break;
         case 3:
-            if (x < 0.07 && y < 0.5 && found_code){
+            if (x < 0.07 && y < 0.5){// && found_code
                 next_background();
             }
             break;
@@ -108,8 +100,8 @@ async function mouse_event_handler(event) {
             }
             break;
         case 5:
-            if (0.83 < x && 0.74 < y){// && found_phone && found_key
-                console.log(x, y, 's');
+            if (0.83 < x && 0.74 < y && found_phone && found_key == 1){
+                next_background();
             }
             break;
         case 6:
@@ -123,9 +115,13 @@ async function mouse_event_handler(event) {
             }
             break;
         case 8:
+            if (y < 0.7){
+                console.log('클리어');
+            }
             break;
     }
     reload_object();
+    checker(x, y);
 }
 function key_event_handler(event) {
     next_background();
@@ -243,26 +239,74 @@ async function reload_object() {
                     });
             }
             break;
+        case 5:
+            const charrect = main_character.getBoundingClientRect();
+            var rect = background[current_background - 1].getBoundingClientRect();
+            var phone = document.getElementById('phone');
+            var lock = document.getElementById('lock');
+            var key = document.getElementById('key');
+            if (!temp){
+                var list = [
+                    [0.728, 0.26],
+                    [0.07, 0.45],
+                    [0.728, 0.64],
+                    [0.07, 0.86],
+                ]
+                temp = [list[Math.floor(Math.random() * list.length)]];
+            }
+            if (!found_phone){
+                phone.style.display = 'flex';
+                phone.style.left = rect.left + rect.width * temp[0][0] - phone.width / 2 + 'px';
+                phone.style.top = rect.top + rect.height * temp[0][1] - phone.height / 2 + 'px';
+                const phonerect = phone.getBoundingClientRect();
+                if (charrect.right > phonerect.left && charrect.left < phonerect.right &&
+                    charrect.bottom > phonerect.top && charrect.top < phonerect.bottom){
+                    phone.style.display = 'none';
+                    found_phone = 1;
+                    console.log('휴대폰을 찾았습니다!');
+                }
+            }else {
+                phone.style.display = 'none';
+            }
+            if (!found_key){
+                lock.style.display = 'flex';
+                lock.style.left = rect.left + rect.width * 0.91 - lock.width / 2 + 'px';
+                lock.style.top = rect.top + rect.height * 0.14 - lock.height / 2 + 'px';
+                const lockrect = lock.getBoundingClientRect();
+                if (charrect.right > lockrect.left && charrect.left < lockrect.right &&
+                    charrect.bottom > lockrect.top && charrect.top < lockrect.bottom){
+                    lock.style.display = 'none';
+                    found_key = -1;
+                }
+            }else if (found_key == -1){
+                key.style.display = 'flex';
+                key.style.left = rect.left + rect.width * 0.95 - key.width / 2 + 'px';
+                key.style.top = rect.top + rect.height * 0.4 - key.height / 2 + 'px';
+                const keyrect = key.getBoundingClientRect();
+                if (charrect.right > keyrect.left && charrect.left < keyrect.right &&
+                    charrect.bottom > keyrect.top && charrect.top < keyrect.bottom){
+                    key.style.display = 'none';
+                    found_key = 1;
+                    console.log('열쇠를 찾았습니다!');
+                }
+            }
         default:
             var computer_on = document.getElementById('computer_on');
             computer_on.style.display = 'none';
     }
 }
 
-//추가된 부분 (히트박스 핸들링 위함)
-//--------------------------------------------------------------------------------------
-function checker(){
+function checker(x, y){
     const current_obs = obstacle[current_background - 1]; //현재 배경의 장애물 정보 받아옴
     if(!current_obs || current_obs.length === 0){ //만약 장애물이 없다면 그냥 반환 (최적화를 위함이며, 함수 바깥에 무언가 저장, 전달하는 방법 통해서 추가 최적화도 가능할 듯?)
         return;
     }
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
-        if( mouse_pos.x > obs.x1 && mouse_pos.y > obs.y1 && mouse_pos.x < obs.x2 && mouse_pos.y < obs.y2 ) { //마우스 포인터의 위치가 장애물 (왼쪽 위, 오른쪽 아래로 직사각형 히트박스 구현) 안에 있는지 확인
+        if(x > obs.x1 && y > obs.y1 && x < obs.x2 && y < obs.y2 ) { //마우스 포인터의 위치가 장애물 (왼쪽 위, 오른쪽 아래로 직사각형 히트박스 구현) 안에 있는지 확인
             return; //현재는 반환이지만 이후 died 배경 전환코드로 치환 또는 수정 예정
         }
     }
 }
-//--------------------------------------------------------------------------------------
 
 main_character.style.display = 'none';
 placeholder.style.width = background[0].naturalWidth+'px';
