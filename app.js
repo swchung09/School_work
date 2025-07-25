@@ -1,4 +1,4 @@
-let current_background = 1;
+let current_background = 0;
 let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp;
 
 let check_intv = null; // 히트박스 처리 함수 호출 주기
@@ -318,7 +318,7 @@ async function reload_object() {
 }
 
 async function checker(event){
-    var rect = background[current_background - 1].getBoundingClientRect();
+    var rect = background[current_background-1].getBoundingClientRect();
     var x, y;
     x = (event.clientX - rect.left) / rect.width;
     y = (event.clientY - rect.top) / rect.height;
