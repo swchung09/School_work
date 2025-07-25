@@ -74,7 +74,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
     switch (current_background){
         case 1:
             if (0.93 < x && 0.71 < y){
-                //next_background();
+                next_background();
             }
             break;
         case 2:
