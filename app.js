@@ -1,4 +1,4 @@
-let current_background = 0;
+let current_background = 1;
 let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp;
 
 let check_intv = null; // 히트박스 처리 함수 호출 주기
