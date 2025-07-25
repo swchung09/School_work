@@ -14,7 +14,7 @@ button = document.getElementById('button')
 function next_background(){ // 다음 배경 전환 함수
     temp = null;
     current_background++;
-    for (let i = 0; i < 10; i++){ // 모든 배경 숨김
+    for (let i = 0; i < 9; i++){ // 모든 배경 숨김
         background[i].style.display = 'none';
         if (relative[i]){
             relative[i].style.display = 'none';
@@ -298,6 +298,8 @@ async function checker(x, y){
     if(!current_obs || current_obs.length === 0){ //만약 장애물이 없다면 그냥 반환 (최적화를 위함이며, 함수 바깥에 무언가 저장, 전달하는 방법 통해서 추가 최적화도 가능할 듯?)
         return;
     }
+    console.log(current_obs);
+    console.log(current_obs.length);
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
         if(x + main_character.width / 2 > obs.x1 && y + main_character.height / 2 > obs.y1 && x - main_character.width / 2 < obs.x2 && y - main_character.height / 2 < obs.y2 ) { //메인캐릭터 크기 고려해서 (직사각형) 비교 (마우스포인터에서 직사각형으로 수정됨)
             let died = document.getElementById('died'); // died 페이지 띄움
