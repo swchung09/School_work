@@ -16,6 +16,7 @@ const obstacle = [
         {x1: 0.65, y1: 0.64, x2: 0.85, y2: 0.75},
         {x1: 0.65, y1: 0.84, x2: 0.75, y2: 0.96},
     ],
+    [],
     [
         { x1: 0.159, y1: 0.234, x2: 0.433, y2: 0.395 },
         { x1: 0.160, y1: 0.400, x2: 0.433, y2: 0.579 },
@@ -321,7 +322,7 @@ async function checker(event){
     var x, y;
     x = (event.clientX - rect.left) / rect.width;
     y = (event.clientY - rect.top) / rect.height;
-    const current_obs = obstacle[current_background - 1]; //현재 배경의 장애물 정보 받아옴
+    const current_obs = obstacle[current_background]; //현재 배경의 장애물 정보 받아옴
     if(!current_obs || current_obs.length === 0){ //만약 장애물이 없다면 그냥 반환 (최적화를 위함이며, 함수 바깥에 무언가 저장, 전달하는 방법 통해서 추가 최적화도 가능할 듯?)
         return;
     }
