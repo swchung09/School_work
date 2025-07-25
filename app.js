@@ -4,7 +4,7 @@ let background = [], relative = [], main_character, placeholder, button, found_c
 let check_intv = null; // 히트박스 처리 함수 호출 주기
 const obstacle = []; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
 
-for (let i = 0; i < 8; i++){ // 배경 리스트 생성
+for (let i = 0; i < 9; i++){ // 배경 리스트 생성
     background[i] = document.getElementById(`background${i+1}`);
     relative[i] = document.getElementById(`background-r${i+1}`);
 }
@@ -14,7 +14,7 @@ button = document.getElementById('button')
 function next_background(){ // 다음 배경 전환 함수
     temp = null;
     current_background++;
-    for (let i = 0; i < 8; i++){ // 모든 배경 숨김
+    for (let i = 0; i < 9; i++){ // 모든 배경 숨김
         background[i].style.display = 'none';
         if (relative[i]){
             relative[i].style.display = 'none';
