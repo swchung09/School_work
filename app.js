@@ -1,8 +1,12 @@
-let current_background = 0, x = 0, y = 0
+let current_background = 0;
 let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp;
 
 let check_intv = null; // 히트박스 처리 함수 호출 주기
-const obstacle = []; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
+const obstacle = [
+    [
+        {x1: 0.05, y1: 0.6, x2: 0.15, y2: 0.7},
+    ],
+]; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
 
 for (let i = 0; i < 9; i++){ // 배경 리스트 생성
     background[i] = document.getElementById(`background${i+1}`);
@@ -49,7 +53,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
     switch (current_background){
         case 1:
             if (0.93 < x && 0.71 < y){
-                next_background();
+                //next_background();
             }
             break;
         case 2:
@@ -120,7 +124,6 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
             break;
     }
     reload_object();
-    checker(x, y);
 }
 function key_event_handler(event) {
     next_background();
@@ -293,41 +296,40 @@ async function reload_object() {
     }
 }
 
-async function checker(x, y){
+async function checker(event){
     const current_obs = obstacle[current_background - 1]; //현재 배경의 장애물 정보 받아옴
     if(!current_obs || current_obs.length === 0){ //만약 장애물이 없다면 그냥 반환 (최적화를 위함이며, 함수 바깥에 무언가 저장, 전달하는 방법 통해서 추가 최적화도 가능할 듯?)
         return;
     }
-    console.log(current_obs);
-    console.log(current_obs.length);
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
         if(x + main_character.width / 2 > obs.x1 && y + main_character.height / 2 > obs.y1 && x - main_character.width / 2 < obs.x2 && y - main_character.height / 2 < obs.y2 ) { //메인캐릭터 크기 고려해서 (직사각형) 비교 (마우스포인터에서 직사각형으로 수정됨)
-            let died = document.getElementById('died'); // died 페이지 띄움
-            document.removeEventListener('mousemove', mouse_event_handler);
-            document.removeEventListener('keydown', key_event_handler);
-            main_character.style.display = 'none';
-            for (let i = 0; i < 7; i++) {
-                background[i].style.display = 'none';
-                if (relative[i]) {
-                    relative[i].style.display = 'none';
-                }
-            }
-            died.style.display = 'flex';
-            await new Promise((resolve) => {
-                const handler = (event) => {
-                    var rect = died.getBoundingClientRect();
-                    x = (event.clientX - rect.left) / rect.width;
-                    y = (event.clientY - rect.top) / rect.height;
-                    if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                        document.removeEventListener('click', handler);
-                        died.style.display = 'none';
-                        placeholder.style.display = 'flex';
-                        button.style.display = 'flex';
-                        current_background = 1000;                            
-                    }
-                }
-                document.addEventListener('click', handler)
-            });
+            // let died = document.getElementById('died'); // died 페이지 띄움
+            // document.removeEventListener('mousemove', mouse_event_handler);
+            // document.removeEventListener('keydown', key_event_handler);
+            // main_character.style.display = 'none';
+            // for (let i = 0; i < 7; i++) {
+            //     background[i].style.display = 'none';
+            //     if (relative[i]) {
+            //         relative[i].style.display = 'none';
+            //     }
+            // }
+            // died.style.display = 'flex';
+            // await new Promise((resolve) => {
+            //     const handler = (event) => {
+            //         var rect = died.getBoundingClientRect();
+            //         x = (event.clientX - rect.left) / rect.width;
+            //         y = (event.clientY - rect.top) / rect.height;
+            //         if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
+            //             document.removeEventListener('click', handler);
+            //             died.style.display = 'none';
+            //             placeholder.style.display = 'flex';
+            //             button.style.display = 'flex';
+            //             current_background = 1000;                            
+            //         }
+            //     }
+            //     document.addEventListener('click', handler)
+            // });
+            console.log('died', x, y);
         }
     }
 }
@@ -340,14 +342,9 @@ button.addEventListener('click', function(event){
     button.style.display = 'none';
     main_character.style.display = 'flex';
     document.addEventListener("keydown", key_event_handler);
+    document.addEventListener("mousemove", checker);
     document.addEventListener("mousemove", mouse_event_handler);
     window.addEventListener("resize", reload_object);
-
-//추가된 부분 (히트박스 핸들링 위함)
-//--------------------------------------------------------------------------------------
-    if(check_intv) clearInterval(check_intv); //interval 활용해서 100ms 주기로 확인 (값 변경할듯? 100ms는 너무 긴거같음, interval 관련 함수 등은 좀 더 찾아봐야함 (이해 부족))
-    check_intv = setInterval(checker, 30);
-//--------------------------------------------------------------------------------------
     
     next_background();
 })
