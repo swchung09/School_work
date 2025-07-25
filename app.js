@@ -115,7 +115,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
             break;
         case 8:
             if (y < 0.7){
-                console.log('클리어');
+                next_background();
             }
             break;
     }
