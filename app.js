@@ -121,7 +121,6 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                 let y_abs = mouse_rel_y * background[current_background - 1].naturalHeight;
                 if (y_abs > (800 / 1649) * x_abs + 780){
                     let died = document.getElementById('died'); // 사망 처리
-                    clearInterval(check_intv);
                     document.removeEventListener('mousemove', mouse_event_handler);
                     document.removeEventListener('keydown', key_event_handler);
                     main_character.style.display = 'none';
@@ -378,7 +377,6 @@ async function checker(char_rel){
         if (char_rel.x < obs.x2 && char_rel.x + char_rel.width > obs.x1 &&
             char_rel.y < obs.y2 && char_rel.y + char_rel.height > obs.y1) { //메인캐릭터 크기 고려해서 (직사각형) 비교
             let died = document.getElementById('died'); // died 페이지 띄움
-            clearInterval(check_intv);
             document.removeEventListener('mousemove', mouse_event_handler);
             document.removeEventListener('keydown', key_event_handler);
             main_character.style.display = 'none';
