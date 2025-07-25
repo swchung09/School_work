@@ -329,32 +329,32 @@ async function checker(event){
     console.log(x, y);
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
         if(x > obs.x1 && y > obs.y1 && x < obs.x2 && y < obs.y2) { //메인캐릭터 크기 고려해서 (직사각형) 비교 (마우스포인터에서 직사각형으로 수정됨)
-            // let died = document.getElementById('died'); // died 페이지 띄움
-            // document.removeEventListener('mousemove', mouse_event_handler);
-            // document.removeEventListener('keydown', key_event_handler);
-            // main_character.style.display = 'none';
-            // for (let i = 0; i < 7; i++) {
-            //     background[i].style.display = 'none';
-            //     if (relative[i]) {
-            //         relative[i].style.display = 'none';
-            //     }
-            // }
-            // died.style.display = 'flex';
-            // await new Promise((resolve) => {
-            //     const handler = (event) => {
-            //         var rect = died.getBoundingClientRect();
-            //         x = (event.clientX - rect.left) / rect.width;
-            //         y = (event.clientY - rect.top) / rect.height;
-            //         if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-            //             document.removeEventListener('click', handler);
-            //             died.style.display = 'none';
-            //             placeholder.style.display = 'flex';
-            //             button.style.display = 'flex';
-            //             current_background = 1000;                            
-            //         }
-            //     }
-            //     document.addEventListener('click', handler)
-            // });
+            let died = document.getElementById('died'); // died 페이지 띄움
+            document.removeEventListener('mousemove', mouse_event_handler);
+            document.removeEventListener('keydown', key_event_handler);
+            main_character.style.display = 'none';
+            for (let i = 0; i < 7; i++) {
+                background[i].style.display = 'none';
+                if (relative[i]) {
+                    relative[i].style.display = 'none';
+                }
+            }
+            died.style.display = 'flex';
+            await new Promise((resolve) => {
+                const handler = (event) => {
+                    var rect = died.getBoundingClientRect();
+                    x = (event.clientX - rect.left) / rect.width;
+                    y = (event.clientY - rect.top) / rect.height;
+                    if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
+                        document.removeEventListener('click', handler);
+                        died.style.display = 'none';
+                        placeholder.style.display = 'flex';
+                        button.style.display = 'flex';
+                         current_background = 1000;                            
+                     }
+                 }
+                 document.addEventListener('click', handler)
+            });
             console.log('died', x, y);
         }
     }
