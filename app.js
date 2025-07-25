@@ -167,7 +167,7 @@ async function reload_object(char_rel = null) {
 
     var rect = background[current_background - 1].getBoundingClientRect();
     switch (current_background){
-        case 3:
+        case 3: // 컴퓨터 랜덤 위치
             if (!temp){
                 var list = [
                     [0.205, 0.25], [0.297, 0.25], [0.387, 0.25],
@@ -179,18 +179,18 @@ async function reload_object(char_rel = null) {
                     [0.618, 0.627], [0.709, 0.627], [0.798, 0.627],
                     [0.62, 0.826], [0.712, 0.826], [0.803, 0.826],
                 ]
-                temp = list[Math.floor(Math.random() * list.length)];
+                temp = list[Math.floor(Math.random() * list.length)]; // 랜덤 위치 설정
             }
-            var computer_on = document.getElementById('computer_on');
+            var computer_on = document.getElementById('computer_on'); // 컴퓨터 켜짐 이미지
             var computer_on_rect = computer_on.getBoundingClientRect();
             var left = rect.left + rect.width * temp[0] - computer_on_rect.width / 2;
             var top = rect.top + rect.height * temp[1] - computer_on_rect.height / 2;
             computer_on.style.display = 'flex';
-            computer_on.style.left = left + 'px';
-            computer_on.style.top = top + 'px';
+            computer_on.style.left = left + 'px'; // 컴퓨터 위치 설정
+            computer_on.style.top = top + 'px'; // 컴퓨터 위치 설정
 
-            if (found_code == 0){
-                const computer_rel = {
+            if (found_code == 0){ // 컴퓨터에 닿은 적이 없을때
+                const computer_rel = { // 컴퓨터 상대 좌표 계산
                     x: (left - rect.left) / rect.width,
                     y: (top - rect.top) / rect.height,
                     width: computer_on_rect.width / rect.width,
@@ -199,6 +199,7 @@ async function reload_object(char_rel = null) {
 
                 if (char_rel.x < computer_rel.x + computer_rel.width && char_rel.x + char_rel.width > computer_rel.x &&
                     char_rel.y < computer_rel.y + computer_rel.height && char_rel.y + char_rel.height > computer_rel.y) {
+                    // 메인 캐릭터가 컴퓨터에 닿았을 때
                     document.removeEventListener('mousemove', mouse_event_handler);
                     document.removeEventListener('keydown', key_event_handler);
                     computer_on.style.display = 'none';
@@ -206,9 +207,9 @@ async function reload_object(char_rel = null) {
                     placeholder.style.display = 'flex';
                     background[2].style.display = 'none';
                     relative[2].style.display = 'none';
-                    const chars = 'abcdefghijklmnopqrstuvwxyz';
+                    const chars = 'abcdefghijklmnopqrstuvwxyz'; // 문자 리스트
                     var password = '', answer = [];
-                    for (let i = 0; i < 5; i++) {
+                    for (let i = 0; i < 5; i++) { // 5글자 비밀번호 생성
                         password += chars.charAt(Math.floor(Math.random() * 26));
                     }
                     placeholder.innerHTML = `<h1>비밀번호 맞추기!</h1>
@@ -223,11 +224,11 @@ async function reload_object(char_rel = null) {
                         <p> 4번째 글자 : <input type="text" id="pw4"></p>
                         <button id="submit">제출</button>
                     </fieldset>`;
-                    for (let i = 0; i < 4; i++) {
+                    for (let i = 0; i < 4; i++) { // 정답 계산
                         answer[i] = Math.abs(password.charCodeAt(i + 1) - password.charCodeAt(i));
                     }
                     console.log(answer);
-                    await new Promise((resolve) => {
+                    await new Promise((resolve) => { // 비밀번호 입력 완료까지 대기
                         const handler = (event) => {
                             var pw1, pw2, pw3, pw4;
                             pw1 = document.getElementById('pw1').value;
@@ -236,6 +237,7 @@ async function reload_object(char_rel = null) {
                             pw4 = document.getElementById('pw4').value;
                             console.log(pw1, pw2, pw3, pw4);
                             if (pw1 == answer[0] && pw2 == answer[1] && pw3 == answer[2] && pw4 == answer[3]){
+                                // 입력값이 정답이랑 같을 때
                                 found_code = 1;
                                 placeholder.style.display = 'none';
                                 main_character.style.display = 'flex';
@@ -245,6 +247,7 @@ async function reload_object(char_rel = null) {
                                 document.removeEventListener("click", handler);
                                 document.addEventListener("keydown", key_event_handler);
                                 document.addEventListener("mousemove", mouse_event_handler);
+                                // 이후 죽을 때 처리를 위한 기존 placeholder 내용 복구
                                 placeholder.innerHTML = '<p>이 게임은 감옥탈출 게임입니다.<br>당신은 감옥에 갇혀있습니다.<br>당신은 탈출할 수 있을까요?<br><br><strong>게임을 시작하려면 버튼을 눌러주세요!</strong></p><button id="button">시작</button>';
                                 button = document.getElementById('button');
                                 button.addEventListener('click', function(event){
@@ -270,7 +273,7 @@ async function reload_object(char_rel = null) {
             var phone = document.getElementById('phone');
             var lock = document.getElementById('lock');
             var key = document.getElementById('key');
-            if (!temp){
+            if (!temp){ // 핸드폰 랜덤 위치 설정
                 var list = [
                     [0.728, 0.26], [0.07, 0.45],
                     [0.728, 0.64], [0.07, 0.86],
@@ -278,7 +281,7 @@ async function reload_object(char_rel = null) {
                 temp = [list[Math.floor(Math.random() * list.length)]];
             }
 
-            if (!found_phone){
+            if (!found_phone){ // 핸드폰을 찾지 못했을 때
                 phone.style.display = 'flex';
                 let phone_rect = phone.getBoundingClientRect();
                 let phone_abs_left = rect.left + rect.width * temp[0][0] - phone_rect.width / 2;
@@ -295,6 +298,7 @@ async function reload_object(char_rel = null) {
 
                 if (char_rel.x < phone_rel.x + phone_rel.width && char_rel.x + char_rel.width > phone_rel.x &&
                     char_rel.y < phone_rel.y + phone_rel.height && char_rel.y + char_rel.height > phone_rel.y) {
+                    // 핸드폰에 닿았을 때
                     phone.style.display = 'none';
                     found_phone = 1;
                 }
@@ -302,7 +306,7 @@ async function reload_object(char_rel = null) {
                 phone.style.display = 'none';
             }
 
-            if (!found_key){
+            if (!found_key){ // 키를 찾지 못했을 때
                 lock.style.display = 'flex';
                 let lock_rect = lock.getBoundingClientRect();
                 let lock_abs_left = rect.left + rect.width * 0.91 - lock_rect.width / 2;
@@ -319,10 +323,11 @@ async function reload_object(char_rel = null) {
 
                 if (char_rel.x < lock_rel.x + lock_rel.width && char_rel.x + char_rel.width > lock_rel.x &&
                     char_rel.y < lock_rel.y + lock_rel.height && char_rel.y + char_rel.height > lock_rel.y) {
+                    // 메인 캐릭터가 자물쇠에 닿았을 때
                     lock.style.display = 'none';
                     found_key = -1;
                 }
-            } else if (found_key == -1){
+            } else if (found_key == -1){ // 자물쇠에 닿았지만 키에 닿지 않았을 때
                 key.style.display = 'flex';
                 let key_rect = key.getBoundingClientRect();
                 let key_abs_left = rect.left + rect.width * 0.95 - key_rect.width / 2;
@@ -339,8 +344,9 @@ async function reload_object(char_rel = null) {
 
                 if (char_rel.x < key_rel.x + key_rel.width && char_rel.x + char_rel.width > key_rel.x &&
                     char_rel.y < key_rel.y + key_rel.height && char_rel.y + char_rel.height > key_rel.y) {
+                    // 키에 닿았다면
                     key.style.display = 'none';
-                    found_key = 1;
+                    found_key = 1; // 키를 찾았음
                 }
             }
             break;
