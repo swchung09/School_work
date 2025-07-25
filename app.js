@@ -299,8 +299,33 @@ function checker(x, y){
         return;
     }
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
-        if(x > obs.x1 && y > obs.y1 && x < obs.x2 && y < obs.y2 ) { //마우스 포인터의 위치가 장애물 (왼쪽 위, 오른쪽 아래로 직사각형 히트박스 구현) 안에 있는지 확인
-            return; //현재는 반환이지만 이후 died 배경 전환코드로 치환 또는 수정 예정
+        if(x + main_character.width / 2 > obs.x1 && y + main_character.height / 2 > obs.y1 && x - main_character.width / 2 < obs.x2 && y - main_character.height / 2 < obs.y2 ) { //메인캐릭터 크기 고려해서 (직사각형) 비교 (마우스포인터에서 직사각형으로 수정됨)
+            let died = document.getElementById('died'); // died 페이지 띄움
+            document.removeEventListener('mousemove', mouse_event_handler);
+            document.removeEventListener('keydown', key_event_handler);
+            main_character.style.display = 'none';
+            for (let i = 0; i < 7; i++) {
+                background[i].style.display = 'none';
+                if (relative[i]) {
+                    relative[i].style.display = 'none';
+                }
+            }
+            died.style.display = 'flex';
+            await new Promise((resolve) => {
+                const handler = (event) => {
+                    var rect = died.getBoundingClientRect();
+                    x = (event.clientX - rect.left) / rect.width;
+                    y = (event.clientY - rect.top) / rect.height;
+                    if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
+                        document.removeEventListener('click', handler);
+                        died.style.display = 'none';
+                        placeholder.style.display = 'flex';
+                        button.style.display = 'flex';
+                        current_background = 1000;                            
+                    }
+                }
+                document.addEventListener('click', handler)
+            });
         }
     }
 }
@@ -319,7 +344,7 @@ button.addEventListener('click', function(event){
 //추가된 부분 (히트박스 핸들링 위함)
 //--------------------------------------------------------------------------------------
     if(check_intv) clearInterval(check_intv); //interval 활용해서 100ms 주기로 확인 (값 변경할듯? 100ms는 너무 긴거같음, interval 관련 함수 등은 좀 더 찾아봐야함 (이해 부족))
-    check_intv = setInterval(checker, 100);
+    check_intv = setInterval(checker, 30);
 //--------------------------------------------------------------------------------------
     
     next_background();
