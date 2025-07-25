@@ -4,18 +4,17 @@ let background = [], relative = [], main_character, placeholder, button, found_c
 let check_intv = null; // 히트박스 처리 함수 호출 주기
 const obstacle = []; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
 
-for (let i = 0; i < 8; i++){
+for (let i = 0; i < 8; i++){ // 배경 리스트 생성
     background[i] = document.getElementById(`background${i+1}`);
     relative[i] = document.getElementById(`background-r${i+1}`);
 }
-
-main_character = document.getElementById('main_character');
+main_character = document.getElementById('main_character'); // 케릭터 및 요소 불러오기
 placeholder = document.getElementById('placeholder')
 button = document.getElementById('button')
-function next_background(){
+function next_background(){ // 다음 배경 전환 함수
     temp = null;
     current_background++;
-    for (let i = 0; i < 8; i++){
+    for (let i = 0; i < 8; i++){ // 모든 배경 숨김
         background[i].style.display = 'none';
         if (relative[i]){
             relative[i].style.display = 'none';
@@ -24,20 +23,20 @@ function next_background(){
     if (background.length < current_background){
         current_background = 1;
     }
-    background[current_background-1].style.display = 'flex';
+    background[current_background-1].style.display = 'flex'; // 현재 배경 표시
     if (relative[current_background-1]){
         relative[current_background-1].style.display = 'flex';
     }
     reload_object();
 }
-async function mouse_event_handler(event) {
-    var rect = background[current_background - 1].getBoundingClientRect();
-    var charrect = main_character.getBoundingClientRect();
-    let x = event.clientX;
-    let y = event.clientY;    
+async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
+    var rect = background[current_background - 1].getBoundingClientRect(); // 배경 크기 정보
+    var charrect = main_character.getBoundingClientRect(); // 케릭터 크기 정보
+    let x = event.clientX; // 마우스 X 좌표
+    let y = event.clientY; // 마우스 Y 좌표
     
-    x -= charrect.width / 2;
-    y -= charrect.height;
+    x -= charrect.width / 2; // 케릭터 중앙으로 위치 조정
+    y -= charrect.height; // 케릭터 아래로 위치 조정
     if (x < rect.left) x = rect.left;
     if (x > rect.right - charrect.width) x = rect.right - charrect.width;
     if (y < rect.top) y = rect.top;
@@ -70,7 +69,7 @@ async function mouse_event_handler(event) {
                 x *= background[current_background - 1].naturalWidth;
                 y *= background[current_background - 1].naturalHeight;
                 if (y > (800 / 1649) * x + 780){
-                    let died = document.getElementById('died');
+                    let died = document.getElementById('died'); // 사망 처리
                     document.removeEventListener('mousemove', mouse_event_handler);
                     document.removeEventListener('keydown', key_event_handler);
                     main_character.style.display = 'none';
@@ -263,7 +262,6 @@ async function reload_object() {
                     charrect.bottom > phonerect.top && charrect.top < phonerect.bottom){
                     phone.style.display = 'none';
                     found_phone = 1;
-                    console.log('휴대폰을 찾았습니다!');
                 }
             }else {
                 phone.style.display = 'none';
@@ -287,7 +285,6 @@ async function reload_object() {
                     charrect.bottom > keyrect.top && charrect.top < keyrect.bottom){
                     key.style.display = 'none';
                     found_key = 1;
-                    console.log('열쇠를 찾았습니다!');
                 }
             }
         default:
