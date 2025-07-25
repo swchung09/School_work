@@ -4,7 +4,7 @@ let background = [], relative = [], main_character, placeholder, button, found_c
 let check_intv = null; // 히트박스 처리 함수 호출 주기
 const obstacle = [
     [
-        {x1: 0.05, y1: 0.6, x2: 0.15, y2: 0.7},
+        {x1: 0.157, y1: 0.245, x2: 0.341, y2: 0.396}, // 배경 1 장애물
     ],
 ]; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
 
@@ -307,7 +307,7 @@ async function checker(event){
     }
     console.log(x, y);
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
-        if(x + main_character.width / 2 > obs.x1 && y + main_character.height / 2 > obs.y1 && x - main_character.width / 2 < obs.x2 && y - main_character.height / 2 < obs.y2 ) { //메인캐릭터 크기 고려해서 (직사각형) 비교 (마우스포인터에서 직사각형으로 수정됨)
+        if(x > obs.x1 && y > obs.y1 && x < obs.x2 && y < obs.y2 ) { //메인캐릭터 크기 고려해서 (직사각형) 비교 (마우스포인터에서 직사각형으로 수정됨)
             // let died = document.getElementById('died'); // died 페이지 띄움
             // document.removeEventListener('mousemove', mouse_event_handler);
             // document.removeEventListener('keydown', key_event_handler);
