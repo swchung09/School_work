@@ -12,6 +12,7 @@ const obstacle = [
         {x1: 0.661, y1: 0.630, x2: 0.843, y2: 0.777}
     ],
     [],
+    [],
     /*[
         { x1: 0.159, y1: 0.234, x2: 0.433, y2: 0.395 },
         { x1: 0.160, y1: 0.400, x2: 0.433, y2: 0.579 },
@@ -118,8 +119,8 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
             if (0.83 < mouse_rel_x && 0.74 < mouse_rel_y){
                 next_background();
             }else if (0.6 > mouse_rel_x){
-                let x_abs = mouse_rel_x * background[current_background - 1].naturalWidth;
-                let y_abs = mouse_rel_y * background[current_background - 1].naturalHeight;
+                let x_abs = mouse_rel_x * background[current_background - 1].width;
+                let y_abs = mouse_rel_y * background[current_background - 1].height;
                 if (y_abs > (800 / 1649) * x_abs + 780){
                     let died = document.getElementById('died'); // 사망 처리
                     document.removeEventListener('mousemove', mouse_event_handler);
