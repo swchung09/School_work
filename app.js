@@ -14,7 +14,7 @@ const obstacle = [
         {x1: 0.661, y1: 0.630, x2: 0.843, y2: 0.777}
     ],
     [],
-    [
+    /*[
         { x1: 0.159, y1: 0.234, x2: 0.433, y2: 0.395 },
         { x1: 0.160, y1: 0.400, x2: 0.433, y2: 0.579 },
         { x1: 0.152, y1: 0.597, x2: 0.426, y2: 0.776 },
@@ -23,7 +23,8 @@ const obstacle = [
         { x1: 0.576, y1: 0.398, x2: 0.849, y2: 0.577 },
         { x1: 0.571, y1: 0.561, x2: 0.844, y2: 0.773 },
         { x1: 0.574, y1: 0.793, x2: 0.847, y2: 0.972 }
-    ],
+    */ //],
+    //임시로 3번째 히트박스 삭제
 ]; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
 
 for (let i = 0; i < 9; i++){ // 배경 리스트 생성
@@ -155,6 +156,9 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
         case 8:
             if (mouse_rel_y < 0.7){
                 next_background();
+                main_character.style.display = 'none';
+                document.removeEventListener('mousemove', mouse_event_handler);
+                document.removeEventListener('keydown', key_event_handler);
             }
             break;
     }
