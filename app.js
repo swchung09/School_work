@@ -270,8 +270,43 @@ async function reload_object(char_rel = null) {
                                 background[2].style.display = 'flex';
                                 relative[2].style.display = 'flex';
                                 document.removeEventListener("click", handler);
+
+                                // 안전한 위치(컴퓨터가 있던 곳)로 캐릭터를 먼저 이동
+                                var rect = background[current_background - 1].getBoundingClientRect();
+                                var charrect = main_character.getBoundingClientRect();
+                                let abs_x = rect.left + rect.width * temp[0] - charrect.width / 2;
+                                let abs_y = rect.top + rect.height * temp[1] - charrect.height;
+                                main_character.style.left = abs_x + 'px';
+                                main_character.style.top = abs_y + 'px';
+
+                                alert("미션 성공! 컴퓨터가 있던 안전한 위치를 클릭하면 조작이 활성화됩니다.");
+
+                                const reEnableMouseHandler = (event) => {
+                                    const rect = background[current_background - 1].getBoundingClientRect();
+                                    const clickX = (event.clientX - rect.left) / rect.width;
+                                    const clickY = (event.clientY - rect.top) / rect.height;
+
+                                    // 컴퓨터 주변의 안전 영역 (가로/세로 10% 크기로 설정)
+                                    const safeZone = {
+                                        x1: temp[0] - 0.05,
+                                        y1: temp[1] - 0.05,
+                                        x2: temp[0] + 0.05,
+                                        y2: temp[1] + 0.05
+                                    };
+
+                                    if (clickX > safeZone.x1 && clickX < safeZone.x2 && clickY > safeZone.y1 && clickY < safeZone.y2) {
+                                        // 안전 영역 클릭 시에만 마우스 이동 이벤트 활성화
+                                        document.addEventListener("mousemove", mouse_event_handler);
+                                    } else {
+                                        alert("컴퓨터가 있던 위치 근처의 안전 영역을 클릭해야 합니다.");
+                                        // 실패 시 다시 클릭을 기다림
+                                        document.addEventListener('click', reEnableMouseHandler, { once: true });
+                                    }
+                                };
+                                // 첫 클릭을 기다리는 이벤트 리스너 등록
+                                document.addEventListener('click', reEnableMouseHandler, { once: true });
+                                
                                 document.addEventListener("keydown", key_event_handler);
-                                document.addEventListener("mousemove", mouse_event_handler);
                                 // 이후 죽을 때 처리를 위한 기존 placeholder 내용 복구
                                 placeholder.innerHTML = '<p>이 게임은 감옥탈출 게임입니다.<br>당신은 감옥에 갇혀있습니다.<br>당신은 탈출할 수 있을까요?<br><br><strong>게임을 시작하려면 버튼을 눌러주세요!</strong></p><button id="button">시작</button>';
                                 button = document.getElementById('button');
