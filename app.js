@@ -12,7 +12,8 @@ const obstacle = [
         {x1: 0.661, y1: 0.630, x2: 0.843, y2: 0.777}
     ],
     [],
-    [
+    [],
+    /*[
         { x1: 0.159, y1: 0.234, x2: 0.433, y2: 0.395 },
         { x1: 0.160, y1: 0.400, x2: 0.433, y2: 0.579 },
         { x1: 0.152, y1: 0.597, x2: 0.426, y2: 0.776 },
@@ -21,7 +22,8 @@ const obstacle = [
         { x1: 0.576, y1: 0.398, x2: 0.849, y2: 0.577 },
         { x1: 0.571, y1: 0.561, x2: 0.844, y2: 0.773 },
         { x1: 0.574, y1: 0.793, x2: 0.847, y2: 0.972 }
-    ],
+    */ //],
+    //임시로 3번째 히트박스 삭제
     [],
     [
         {x1: 0.114, y1: 0.204, x2: 0.473, y2: 0.315},
@@ -303,8 +305,15 @@ async function reload_object(char_rel = null) {
                                         document.addEventListener('click', reEnableMouseHandler, { once: true });
                                     }
                                 };
-                                // 첫 클릭을 기다리는 이벤트 리스너 등록
-                                document.addEventListener('click', reEnableMouseHandler, { once: true });
+
+                                // alert 확인 클릭을 무시하기 위한 중간 핸들러
+                                const initialClickHandler = () => {
+                                    // 사용자의 다음 실제 클릭을 기다리는 진짜 핸들러를 등록
+                                    document.addEventListener('click', reEnableMouseHandler, { once: true });
+                                };
+
+                                // alert 확인 클릭을 받아줄 첫 이벤트 리스너 등록
+                                document.addEventListener('click', initialClickHandler, { once: true });
                                 
                                 document.addEventListener("keydown", key_event_handler);
                                 // 이후 죽을 때 처리를 위한 기존 placeholder 내용 복구
@@ -441,8 +450,8 @@ async function checker(char_rel){
                     let x = (event.clientX - rect.left) / rect.width;
                     let y = (event.clientY - rect.top) / rect.height;
                     if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                        location.reload();                    
-                    }
+                        location.reload();
+                     }
                  }
                  document.addEventListener('click', handler)
             });
