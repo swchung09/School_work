@@ -1,5 +1,5 @@
 let current_background = 0;
-let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp;
+let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp, safeHitbox;
 const obstacle = [
     [
         {x1: 0.159, y1: 0.249, x2: 0.340, y2: 0.396},
@@ -286,7 +286,7 @@ async function reload_object(char_rel = null) {
                                     const clickX = (event.clientX - rect.left) / rect.width;
                                     const clickY = (event.clientY - rect.top) / rect.height;
 
-                                    if (clickX > obs.x1 && clickX < obs.x2 && clickY > obs.y1 && clickY < obs.y2) {
+                                    if (clickX > safeHitbox.x1 && clickX < safeHitbox.x2 && clickY > safeHitbox.y1 && clickY < safeHitbox.y2) {
                                         // 안전 영역 클릭 시에만 마우스 이동 이벤트 활성화
                                         document.addEventListener("mousemove", mouse_event_handler);
                                     } else {
