@@ -122,7 +122,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                 let y_abs_on_image = mouse_rel_y * image.naturalHeight;
 
                 if (y_abs_on_image > (1122 / 1639) * x_abs_on_image + 673){
-                    let died = document.getElementById('died'); // 사망 처리
+                    let died = document.getElementById('died'); // died 페이지 띄움
                     document.removeEventListener('mousemove', mouse_event_handler);
                     main_character.style.display = 'none';
                     document.getElementById('computer_on').style.display = 'none';
@@ -142,7 +142,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                             let x = (event.clientX - rect.left) / rect.width;
                             let y = (event.clientY - rect.top) / rect.height;
                             if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                                href.reload();
+                                location.reload();
                             }
                         }
                         document.addEventListener('click', handler)
@@ -442,7 +442,6 @@ async function checker(char_rel){
                  }
                  document.addEventListener('click', handler)
             });
-            console.log('died');
         }
     }
 }
