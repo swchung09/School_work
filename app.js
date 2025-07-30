@@ -201,7 +201,7 @@ async function reload_object(char_rel = null) {
                 for (let i = 0; i < obstacles.length; i++) {
                     const obs = obstacles[i];
                     if (computerX > obs.x1 && computerX < obs.x2 && computerY > obs.y1 && computerY < obs.y2) {
-                        obstacles.splice(i, 1);
+                        safeHitbox = obstacles.splice(i, 1)[0];
                         break; 
                     }
                 }
