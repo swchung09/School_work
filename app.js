@@ -441,12 +441,8 @@ async function checker(char_rel){
                     let x = (event.clientX - rect.left) / rect.width;
                     let y = (event.clientY - rect.top) / rect.height;
                     if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                        document.removeEventListener('click', handler);
-                        died.style.display = 'none';
-                        placeholder.style.display = 'flex';
-                        button.style.display = 'flex';
-                         current_background = 1000;                            
-                     }
+                        location.reload();                    
+                    }
                  }
                  document.addEventListener('click', handler)
             });
