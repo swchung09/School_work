@@ -12,8 +12,7 @@ const obstacle = [
         {x1: 0.661, y1: 0.630, x2: 0.843, y2: 0.777}
     ],
     [],
-    [],
-    /*[
+    [
         { x1: 0.159, y1: 0.234, x2: 0.433, y2: 0.395 },
         { x1: 0.160, y1: 0.400, x2: 0.433, y2: 0.579 },
         { x1: 0.152, y1: 0.597, x2: 0.426, y2: 0.776 },
@@ -22,8 +21,7 @@ const obstacle = [
         { x1: 0.576, y1: 0.398, x2: 0.849, y2: 0.577 },
         { x1: 0.571, y1: 0.561, x2: 0.844, y2: 0.773 },
         { x1: 0.574, y1: 0.793, x2: 0.847, y2: 0.972 }
-    */ //],
-    //임시로 3번째 히트박스 삭제
+    ],
     [],
     [
         {x1: 0.114, y1: 0.204, x2: 0.473, y2: 0.315},
@@ -197,6 +195,16 @@ async function reload_object(char_rel = null) {
                     [0.62, 0.826], [0.712, 0.826], [0.803, 0.826],
                 ]
                 temp = list[Math.floor(Math.random() * list.length)]; // 랜덤 위치 설정
+                const computerX = temp[0];
+                const computerY = temp[1];
+                const obstacles = obstacle[2];
+                for (let i = 0; i < obstacles.length; i++) {
+                    const obs = obstacles[i];
+                    if (computerX > obs.x1 && computerX < obs.x2 && computerY > obs.y1 && computerY < obs.y2) {
+                        obstacles.splice(i, 1);
+                        break; 
+                    }
+                }
             }
             var computer_on = document.getElementById('computer_on'); // 컴퓨터 켜짐 이미지
             var computer_on_rect = computer_on.getBoundingClientRect();
