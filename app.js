@@ -124,7 +124,6 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                 if (y_abs_on_image > (1122 / 1639) * x_abs_on_image + 673){
                     let died = document.getElementById('died'); // 사망 처리
                     document.removeEventListener('mousemove', mouse_event_handler);
-                    document.removeEventListener('keydown', key_event_handler);
                     main_character.style.display = 'none';
                     document.getElementById('computer_on').style.display = 'none';
                     document.getElementById('phone').style.display = 'none';
@@ -143,11 +142,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                             let x = (event.clientX - rect.left) / rect.width;
                             let y = (event.clientY - rect.top) / rect.height;
                             if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                                document.removeEventListener('click', handler);
-                                died.style.display = 'none';
-                                placeholder.style.display = 'flex';
-                                button.style.display = 'flex';
-                                current_background = 1000;
+                                href.reload();
                             }
                         }
                         document.addEventListener('click', handler)
@@ -175,13 +170,9 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                 next_background();
                 main_character.style.display = 'none';
                 document.removeEventListener('mousemove', mouse_event_handler);
-                document.removeEventListener('keydown', key_event_handler);
             }
             break;
     }
-}
-function key_event_handler(event) {
-    next_background();
 }
 async function reload_object(char_rel = null) {
     if (!char_rel) return; // char_rel이 없으면 (예: next_background에서 호출) 아무것도 안함
@@ -232,7 +223,6 @@ async function reload_object(char_rel = null) {
                     char_rel.y < computer_rel.y + computer_rel.height && char_rel.y + char_rel.height > computer_rel.y) {
                     // 메인 캐릭터가 컴퓨터에 닿았을 때
                     document.removeEventListener('mousemove', mouse_event_handler);
-                    document.removeEventListener('keydown', key_event_handler);
                     computer_on.style.display = 'none';
                     main_character.style.display = 'none';
                     placeholder.style.display = 'flex';
@@ -311,7 +301,6 @@ async function reload_object(char_rel = null) {
                                 // alert 확인 클릭을 받아줄 첫 이벤트 리스너 등록
                                 document.addEventListener('click', initialClickHandler, { once: true });
                                 
-                                document.addEventListener("keydown", key_event_handler);
                                 // 이후 죽을 때 처리를 위한 기존 placeholder 내용 복구
                                 placeholder.innerHTML = '<p>이 게임은 감옥탈출 게임입니다.<br>당신은 감옥에 갇혀있습니다.<br>당신은 탈출할 수 있을까요?<br><br><strong>게임을 시작하려면 버튼을 눌러주세요!</strong></p><button id="button">시작</button>';
                                 button = document.getElementById('button');
@@ -321,7 +310,6 @@ async function reload_object(char_rel = null) {
                                     button.style.display = 'none';
                                     main_character.style.display = 'flex';
                                     current_background = 0;
-                                    document.addEventListener("keydown", key_event_handler);
                                     document.addEventListener("mousemove", mouse_event_handler);
                                     next_background();
                                 })
@@ -431,7 +419,6 @@ async function checker(char_rel){
             char_rel.y < obs.y2 && char_rel.y + char_rel.height > obs.y1) { //메인캐릭터 크기 고려해서 (직사각형) 비교
             let died = document.getElementById('died'); // died 페이지 띄움
             document.removeEventListener('mousemove', mouse_event_handler);
-            document.removeEventListener('keydown', key_event_handler);
             main_character.style.display = 'none';
             document.getElementById('computer_on').style.display = 'none';
             document.getElementById('phone').style.display = 'none';
@@ -467,7 +454,6 @@ button.addEventListener('click', function(event){
     placeholder.style.display = 'none';
     button.style.display = 'none';
     main_character.style.display = 'flex';
-    document.addEventListener("keydown", key_event_handler);
     document.addEventListener("mousemove", mouse_event_handler);
     next_background();
 })
