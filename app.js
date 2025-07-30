@@ -286,15 +286,7 @@ async function reload_object(char_rel = null) {
                                     const clickX = (event.clientX - rect.left) / rect.width;
                                     const clickY = (event.clientY - rect.top) / rect.height;
 
-                                    // 컴퓨터 주변의 안전 영역 (가로/세로 10% 크기로 설정)
-                                    const safeZone = {
-                                        x1: temp[0] - 0.05,
-                                        y1: temp[1] - 0.05,
-                                        x2: temp[0] + 0.05,
-                                        y2: temp[1] + 0.05
-                                    };
-
-                                    if (clickX > safeZone.x1 && clickX < safeZone.x2 && clickY > safeZone.y1 && clickY < safeZone.y2) {
+                                    if (clickX > obs.x1 && clickX < obs.x2 && clickY > obs.y1 && clickY < obs.y2) {
                                         // 안전 영역 클릭 시에만 마우스 이동 이벤트 활성화
                                         document.addEventListener("mousemove", mouse_event_handler);
                                     } else {
