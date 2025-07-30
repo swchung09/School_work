@@ -109,7 +109,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
             }
             break;
         case 3:
-            if (mouse_rel_x < 0.07 && mouse_rel_y < 0.5){// && found_code
+            if (mouse_rel_x < 0.07 && mouse_rel_y < 0.5 && found_code){
                 next_background();
             }
             break;
@@ -117,13 +117,19 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
             if (0.83 < mouse_rel_x && 0.74 < mouse_rel_y){
                 next_background();
             }else if (0.6 > mouse_rel_x){
-                let x_abs = mouse_rel_x * background[current_background - 1].width;
-                let y_abs = mouse_rel_y * background[current_background - 1].height;
-                if (y_abs > (800 / 1649) * x_abs + 780){
+                let image = background[current_background - 1];
+                let x_abs_on_image = mouse_rel_x * image.naturalWidth;
+                let y_abs_on_image = mouse_rel_y * image.naturalHeight;
+
+                if (y_abs_on_image > (1122 / 1639) * x_abs_on_image + 673){
                     let died = document.getElementById('died'); // 사망 처리
                     document.removeEventListener('mousemove', mouse_event_handler);
                     document.removeEventListener('keydown', key_event_handler);
                     main_character.style.display = 'none';
+                    document.getElementById('computer_on').style.display = 'none';
+                    document.getElementById('phone').style.display = 'none';
+                    document.getElementById('lock').style.display = 'none';
+                    document.getElementById('key').style.display = 'none';
                     for (let i = 0; i < 7; i++) {
                         background[i].style.display = 'none';
                         if (relative[i]) {
@@ -427,6 +433,10 @@ async function checker(char_rel){
             document.removeEventListener('mousemove', mouse_event_handler);
             document.removeEventListener('keydown', key_event_handler);
             main_character.style.display = 'none';
+            document.getElementById('computer_on').style.display = 'none';
+            document.getElementById('phone').style.display = 'none';
+            document.getElementById('lock').style.display = 'none';
+            document.getElementById('key').style.display = 'none';
             for (let i = 0; i < 7; i++) {
                 background[i].style.display = 'none';
                 if (relative[i]) {
