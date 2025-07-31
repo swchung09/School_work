@@ -432,13 +432,13 @@ async function checker(char_rel){
                 }
             }
             died.style.display = 'flex';
-            await new Promise((resolve) => {
+            await new Promise((resolve) => { // 죽으면
                 const handler = (event) => {
                     var rect = died.getBoundingClientRect();
                     let x = (event.clientX - rect.left) / rect.width;
                     let y = (event.clientY - rect.top) / rect.height;
                     if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                        location.reload();
+                        location.reload(); // 다시 버튼 클릭시 새로고침
                      }
                  }
                  document.addEventListener('click', handler)
@@ -447,11 +447,11 @@ async function checker(char_rel){
     }
 }
 
-main_character.style.display = 'none';
+main_character.style.display = 'none'; // 시작 페이지 표시
 placeholder.style.width = background[0].naturalWidth+'px';
 placeholder.style.height = background[0].naturalHeight+'px';
-button.addEventListener('click', function(event){
-    placeholder.style.display = 'none';
+button.addEventListener('click', function(event){ // 시작 버튼 클릭시
+    placeholder.style.display = 'none'; // 1번째 배경 부터 진행
     button.style.display = 'none';
     main_character.style.display = 'flex';
     document.addEventListener("mousemove", mouse_event_handler);
