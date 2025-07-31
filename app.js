@@ -1,3 +1,4 @@
+// 전역 변수 생성
 let current_background = 0;
 let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp, safeHitbox;
 const obstacle = [
@@ -99,7 +100,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
 
     switch (current_background){
         case 1:
-            if (0.93 < mouse_rel_x && 0.71 < mouse_rel_y){
+            if (0.93 < mouse_rel_x && 0.71 < mouse_rel_y){ // case의 첫 if는 배경 전환 위치
                 next_background();
             }
             break;
@@ -116,12 +117,12 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
         case 4:
             if (0.83 < mouse_rel_x && 0.74 < mouse_rel_y){
                 next_background();
-            }else if (0.6 > mouse_rel_x){
+            }else if (0.6 > mouse_rel_x){ // 계단 밑 확인
                 let image = background[current_background - 1];
                 let x_abs_on_image = mouse_rel_x * image.naturalWidth;
                 let y_abs_on_image = mouse_rel_y * image.naturalHeight;
 
-                if (y_abs_on_image > (1122 / 1639) * x_abs_on_image + 673){
+                if (y_abs_on_image > (1122 / 1639) * x_abs_on_image + 673){ // 삼각형 안쪽이라면
                     let died = document.getElementById('died'); // died 페이지 띄움
                     document.removeEventListener('mousemove', mouse_event_handler);
                     main_character.style.display = 'none';
