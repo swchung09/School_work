@@ -118,28 +118,7 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                 let y_abs_on_image = mouse_rel_y * image.naturalHeight;
 
                 if (y_abs_on_image > (1122 / 1639) * x_abs_on_image + 673){ // 삼각형 안쪽이라면
-                    let died = document.getElementById('died'); // died 페이지 띄움
-                    document.removeEventListener('mousemove', mouse_event_handler);
-                    main_character.style.display = 'none';
-                    document.getElementById('computer_on').style.display = 'none';
-                    document.getElementById('phone').style.display = 'none';
-                    document.getElementById('lock').style.display = 'none';
-                    document.getElementById('key').style.display = 'none';
-                    for (let i = 0; i < 7; i++) {
-                        background[i].style.display = 'none';
-                    }
-                    died.style.display = 'flex';
-                    await new Promise((resolve) => {
-                        const handler = (event) => {
-                            var rect = died.getBoundingClientRect();
-                            let x = (event.clientX - rect.left) / rect.width;
-                            let y = (event.clientY - rect.top) / rect.height;
-                            if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                                location.reload();
-                            }
-                        }
-                        document.addEventListener('click', handler)
-                    });
+                    DiedPage();
                 }
             }
             break;
@@ -416,28 +395,7 @@ async function checker(char_rel){
     for(const obs of current_obs){ //각 장애물마다 확인 (장애물 정보 순회)
         if (char_rel.x < obs.x2 && char_rel.x + char_rel.width > obs.x1 &&
             char_rel.y < obs.y2 && char_rel.y + char_rel.height > obs.y1) { //메인캐릭터 크기 고려해서 (직사각형) 비교
-            let died = document.getElementById('died'); // died 페이지 띄움
-            document.removeEventListener('mousemove', mouse_event_handler);
-            main_character.style.display = 'none';
-            document.getElementById('computer_on').style.display = 'none';
-            document.getElementById('phone').style.display = 'none';
-            document.getElementById('lock').style.display = 'none';
-            document.getElementById('key').style.display = 'none';
-            for (let i = 0; i < 7; i++) {
-                background[i].style.display = 'none';
-            }
-            died.style.display = 'flex';
-            await new Promise((resolve) => { // 죽으면
-                const handler = (event) => {
-                    var rect = died.getBoundingClientRect();
-                    let x = (event.clientX - rect.left) / rect.width;
-                    let y = (event.clientY - rect.top) / rect.height;
-                    if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                        location.reload(); // 다시 버튼 클릭시 새로고침
-                     }
-                 }
-                 document.addEventListener('click', handler)
-            });
+            DiedPage();
         }
     }
 }
@@ -459,28 +417,7 @@ function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
         teacherrect.bottom >= charrect.top &&
         teacherrect.top <= charrect.bottom
     ){
-        let died = document.getElementById('died'); // died 페이지 띄움
-        document.removeEventListener('mousemove', mouse_event_handler);
-        main_character.style.display = 'none';
-        document.getElementById('computer_on').style.display = 'none';
-        document.getElementById('phone').style.display = 'none';
-        document.getElementById('lock').style.display = 'none';
-        document.getElementById('key').style.display = 'none';
-        for (let i = 0; i < 7; i++) {
-            background[i].style.display = 'none';
-        }
-        died.style.display = 'flex';
-        await new Promise((resolve) => {
-            const handler = (event) => {
-                var rect = died.getBoundingClientRect();
-                let x = (event.clientX - rect.left) / rect.width;
-                let y = (event.clientY - rect.top) / rect.height;
-                if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                    location.reload();
-                }
-            }
-            document.addEventListener('click', handler)
-        });
+        DiedPage();
     }
 }
 
@@ -500,29 +437,32 @@ function move_ball(){ // 운동장 배경에서 공 움직이는 함수
         ballrect.bottom >= charrect.top &&
         ballrect.top <= charrect.bottom
     ){
-        let died = document.getElementById('died'); // died 페이지 띄움
-        document.removeEventListener('mousemove', mouse_event_handler);
-        main_character.style.display = 'none';
-        document.getElementById('computer_on').style.display = 'none';
-        document.getElementById('phone').style.display = 'none';
-        document.getElementById('lock').style.display = 'none';
-        document.getElementById('key').style.display = 'none';
-        for (let i = 0; i < 7; i++) {
-            background[i].style.display = 'none';
-        }
-        died.style.display = 'flex';
-        await new Promise((resolve) => {
-            const handler = (event) => {
-                var rect = died.getBoundingClientRect();
-                let x = (event.clientX - rect.left) / rect.width;
-                let y = (event.clientY - rect.top) / rect.height;
-                if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
-                    location.reload();
-                }
-            }
-            document.addEventListener('click', handler)
-        });
+        DiedPage();
     }
+}
+async function DiedPage(){
+    let died = document.getElementById('died'); // died 페이지 띄움
+    document.removeEventListener('mousemove', mouse_event_handler);
+    main_character.style.display = 'none';
+    document.getElementById('computer_on').style.display = 'none';
+    document.getElementById('phone').style.display = 'none';
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('key').style.display = 'none';
+    for (let i = 0; i < 7; i++) {
+        background[i].style.display = 'none';
+    }
+    died.style.display = 'flex';
+    await new Promise((resolve) => {
+        const handler = (event) => {
+            var rect = died.getBoundingClientRect();
+            let x = (event.clientX - rect.left) / rect.width;
+            let y = (event.clientY - rect.top) / rect.height;
+            if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
+                location.reload();
+            }
+        }
+        document.addEventListener('click', handler)
+    });
 }
 
 main_character.style.display = 'none'; // 시작 페이지 표시
