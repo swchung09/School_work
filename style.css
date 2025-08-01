@@ -98,3 +98,7 @@ p {
     z-index: 9;
     max-width: 80px;
 }
+#teacher {
+    z-index: 8;
+    width: 12%;
+}

@@ -1,6 +1,6 @@
 // 전역 변수 생성
 let current_background = 0;
-let background = [], relative = [], main_character, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp, safeHitbox;
+let background = [], relative = [], main_character, teacher, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp, safeHitbox;
 const obstacle = [
     [
         {x1: 0.159, y1: 0.249, x2: 0.340, y2: 0.396},
@@ -45,6 +45,7 @@ for (let i = 0; i < 9; i++){ // 배경 리스트 생성
     relative[i] = document.getElementById(`background-r${i+1}`);
 }
 main_character = document.getElementById('main_character'); // 케릭터 및 요소 불러오기
+teacher = document.getElementById('teacher');
 placeholder = document.getElementById('placeholder')
 button = document.getElementById('button')
 function next_background(){ // 다음 배경 전환 함수
@@ -154,11 +155,15 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
         case 5:
             if (0.83 < mouse_rel_x && 0.74 < mouse_rel_y && found_phone && found_key == 1){
                 next_background();
+                setInterval(move_teacher, 16);
+                teacher.style.display = 'flex';
             }
             break;
         case 6:
             if (0.45 < mouse_rel_x && mouse_rel_x < 0.6 && mouse_rel_y < 0.1){
                 next_background();
+                clearInterval(move_teacher);
+                teacher.style.display = 'none';
             }
             break;
         case 7:
@@ -447,6 +452,27 @@ async function checker(char_rel){
     }
 }
 
+function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
+    var rect = background[current_background - 1].getBoundingClientRect(); // 배경 크기 정보
+    var charrect = main_character.getBoundingClientRect();
+    var tx, nx;
+    x = parseInt(teacher.style.left) || 0
+    tx = charrect.left + charrect.width / 2;
+    nx = x + (tx - x) * 0.1;
+    if (nx < rect.left) nx = rect.left;
+    if (rect.right < nx) nx = rect.right;
+    teacher.style.top = (5+rect.top)+'px';
+    teacher.style.left = nx+'px';
+    var teacherrect = teacher.getBoundingClientRect();
+    if (teacherrect.right >= charrect.left &&
+        teacherrect.left <= charrect.right &&
+        teacherrect.bottom >= charrect.top &&
+        teacherrect.top <= charrect.bottom
+    ){
+        console.log('died');
+    }
+}
+
 main_character.style.display = 'none'; // 시작 페이지 표시
 placeholder.style.width = background[0].naturalWidth+'px';
 placeholder.style.height = background[0].naturalHeight+'px';
@@ -455,5 +481,8 @@ button.addEventListener('click', function(event){ // 시작 버튼 클릭시
     button.style.display = 'none';
     main_character.style.display = 'flex';
     document.addEventListener("mousemove", mouse_event_handler);
+    next_background();
+    next_background();
+    next_background();
     next_background();
 })
