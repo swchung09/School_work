@@ -444,6 +444,12 @@ async function DiedPage(){
     let died = document.getElementById('died'); // died 페이지 띄움
     document.removeEventListener('mousemove', mouse_event_handler);
     main_character.style.display = 'none';
+    cumputer_on.style.display = 'none';
+    teacher.style.display = 'none';
+    ball.style.display = 'none';
+    phone.style.display = 'none';
+    lock.style.display = 'none';
+    key.style.display = 'none';
     document.getElementById('computer_on').style.display = 'none';
     document.getElementById('phone').style.display = 'none';
     document.getElementById('lock').style.display = 'none';
