@@ -482,7 +482,4 @@ button.addEventListener('click', function(event){ // 시작 버튼 클릭시
     main_character.style.display = 'flex';
     document.addEventListener("mousemove", mouse_event_handler);
     next_background();
-    next_background();
-    next_background();
-    next_background();
 })
