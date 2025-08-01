@@ -1,6 +1,6 @@
 // 전역 변수 생성
 let current_background = 0;
-let background = [], relative = [], main_character, teacher, placeholder, button, found_code = 0, found_phone = 0, found_key = 0, temp, safeHitbox;
+let background = [], main_character, teacher, placeholder, ball, button, found_code = 0, found_phone = 0, found_key = 0, temp, safeHitbox;
 const obstacle = [
     [
         {x1: 0.159, y1: 0.249, x2: 0.340, y2: 0.396},
@@ -39,31 +39,25 @@ const obstacle = [
         {x1: 0.605, y1: 0.816, x2: 0.719, y2: 0.921}
     ]
 ]; // [n번째 배경][m번째 장애물] = {x1: val, y1: val, x2: val, y2: val} 과 같이 배경-장애물 부분은 배열로, 왼쪽위-오른쪽아래 좌표는 dictionary로 저장
-
+var t1, t2;
 for (let i = 0; i < 9; i++){ // 배경 리스트 생성
     background[i] = document.getElementById(`background${i+1}`);
-    relative[i] = document.getElementById(`background-r${i+1}`);
 }
 main_character = document.getElementById('main_character'); // 케릭터 및 요소 불러오기
 teacher = document.getElementById('teacher');
-placeholder = document.getElementById('placeholder')
-button = document.getElementById('button')
+placeholder = document.getElementById('placeholder');
+ball = document.getElementById('ball');
+button = document.getElementById('button');
 function next_background(){ // 다음 배경 전환 함수
     temp = null;
     current_background++;
     for (let i = 0; i < 9; i++){ // 모든 배경 숨김
         background[i].style.display = 'none';
-        if (relative[i]){
-            relative[i].style.display = 'none';
-        }
     }
     if (background.length < current_background){
         current_background = 1;
     }
     background[current_background-1].style.display = 'flex'; // 현재 배경 표시
-    if (relative[current_background-1]){
-        relative[current_background-1].style.display = 'flex';
-    }
     reload_object();
 }
 async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
@@ -133,9 +127,6 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
                     document.getElementById('key').style.display = 'none';
                     for (let i = 0; i < 7; i++) {
                         background[i].style.display = 'none';
-                        if (relative[i]) {
-                            relative[i].style.display = 'none';
-                        }
                     }
                     died.style.display = 'flex';
                     await new Promise((resolve) => {
@@ -155,15 +146,19 @@ async function mouse_event_handler(event) { // 마우스 이벤트 핸들러
         case 5:
             if (0.83 < mouse_rel_x && 0.74 < mouse_rel_y && found_phone && found_key == 1){
                 next_background();
-                setInterval(move_teacher, 16);
+                t1 = setInterval(move_teacher, 16);
+                t2 = setInterval(move_ball, 16);
                 teacher.style.display = 'flex';
+                ball.style.display = 'flex';
             }
             break;
         case 6:
-            if (0.45 < mouse_rel_x && mouse_rel_x < 0.6 && mouse_rel_y < 0.1){
+            if (0.4 < mouse_rel_x && mouse_rel_x < 0.6 && mouse_rel_y < 0.1){
                 next_background();
-                clearInterval(move_teacher);
+                clearInterval(t1);
+                clearInterval(t2);
                 teacher.style.display = 'none';
+                ball.style.display = 'none';
             }
             break;
         case 7:
@@ -233,7 +228,6 @@ async function reload_object(char_rel = null) {
                     main_character.style.display = 'none';
                     placeholder.style.display = 'flex';
                     background[2].style.display = 'none';
-                    relative[2].style.display = 'none';
                     const chars = 'abcdefghijklmnopqrstuvwxyz'; // 문자 리스트
                     var password = '', answer = [];
                     for (let i = 0; i < 5; i++) { // 5글자 비밀번호 생성
@@ -270,7 +264,6 @@ async function reload_object(char_rel = null) {
                                 main_character.style.display = 'flex';
                                 computer_on.style.display = 'flex';
                                 background[2].style.display = 'flex';
-                                relative[2].style.display = 'flex';
                                 document.removeEventListener("click", handler);
 
                                 // 안전한 위치(컴퓨터가 있던 곳)로 캐릭터를 먼저 이동
@@ -432,9 +425,6 @@ async function checker(char_rel){
             document.getElementById('key').style.display = 'none';
             for (let i = 0; i < 7; i++) {
                 background[i].style.display = 'none';
-                if (relative[i]) {
-                    relative[i].style.display = 'none';
-                }
             }
             died.style.display = 'flex';
             await new Promise((resolve) => { // 죽으면
@@ -468,6 +458,26 @@ function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
         teacherrect.left <= charrect.right &&
         teacherrect.bottom >= charrect.top &&
         teacherrect.top <= charrect.bottom
+    ){
+        console.log('died t');
+    }
+}
+
+function move_ball(){ // 운동장 배경에서 공 움직이는 함수
+    var rect = background[current_background - 1].getBoundingClientRect(); // 배경 크기 정보
+    var charrect = main_character.getBoundingClientRect();
+    var tx, nx;
+    x = parseInt(ball.style.left) || 0
+    nx = x + rect.width * 0.01;
+    if (nx < rect.left) nx = rect.left;
+    if (rect.right < nx) nx = rect.left;
+    ball.style.top = rect.top+(0.45*rect.height)+'px';
+    ball.style.left = nx+'px';
+    var ballrect = ball.getBoundingClientRect();
+    if (ballrect.right >= charrect.left &&
+        ballrect.left <= charrect.right &&
+        ballrect.bottom >= charrect.top &&
+        ballrect.top <= charrect.bottom
     ){
         console.log('died');
     }

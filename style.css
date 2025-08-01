@@ -102,3 +102,6 @@ p {
     z-index: 8;
     width: 12%;
 }
+#ball {
+    max-width: 40px;
+}
