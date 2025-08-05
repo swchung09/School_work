@@ -459,7 +459,7 @@ function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
         teacherrect.bottom >= charrect.top &&
         teacherrect.top <= charrect.bottom
     ){
-        let died = document.getElementById('tdied'); // died 페이지 띄움
+        let tdied = document.getElementById('tdied'); // died 페이지 띄움
         document.removeEventListener('mousemove', mouse_event_handler);
         main_character.style.display = 'none';
         document.getElementById('computer_on').style.display = 'none';
@@ -469,10 +469,10 @@ function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
         for (let i = 0; i < 7; i++) {
             background[i].style.display = 'none';
         }
-        died.style.display = 'flex';
+        tdied.style.display = 'flex';
         await new Promise((resolve) => {
             const handler = (event) => {
-                var rect = died.getBoundingClientRect();
+                var rect = tdied.getBoundingClientRect();
                 let x = (event.clientX - rect.left) / rect.width;
                 let y = (event.clientY - rect.top) / rect.height;
                 if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
@@ -500,7 +500,7 @@ function move_ball(){ // 운동장 배경에서 공 움직이는 함수
         ballrect.bottom >= charrect.top &&
         ballrect.top <= charrect.bottom
     ){
-        let died = document.getElementById('tdied'); // died 페이지 띄움
+        let tdied = document.getElementById('tdied'); // died 페이지 띄움
         document.removeEventListener('mousemove', mouse_event_handler);
         main_character.style.display = 'none';
         document.getElementById('computer_on').style.display = 'none';
@@ -510,10 +510,10 @@ function move_ball(){ // 운동장 배경에서 공 움직이는 함수
         for (let i = 0; i < 7; i++) {
             background[i].style.display = 'none';
         }
-        died.style.display = 'flex';
+        tdied.style.display = 'flex';
         await new Promise((resolve) => {
             const handler = (event) => {
-                var rect = died.getBoundingClientRect();
+                var rect = tdied.getBoundingClientRect();
                 let x = (event.clientX - rect.left) / rect.width;
                 let y = (event.clientY - rect.top) / rect.height;
                 if (0.57 < x && x < 0.86 && 0.66 < y && y < 0.82){
