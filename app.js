@@ -459,7 +459,7 @@ function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
         teacherrect.bottom >= charrect.top &&
         teacherrect.top <= charrect.bottom
     ){
-        let died = document.getElementById('died'); // died 페이지 띄움
+        let died = document.getElementById('tdied'); // died 페이지 띄움
         document.removeEventListener('mousemove', mouse_event_handler);
         main_character.style.display = 'none';
         document.getElementById('computer_on').style.display = 'none';
@@ -500,7 +500,7 @@ function move_ball(){ // 운동장 배경에서 공 움직이는 함수
         ballrect.bottom >= charrect.top &&
         ballrect.top <= charrect.bottom
     ){
-        let died = document.getElementById('died'); // died 페이지 띄움
+        let died = document.getElementById('tdied'); // died 페이지 띄움
         document.removeEventListener('mousemove', mouse_event_handler);
         main_character.style.display = 'none';
         document.getElementById('computer_on').style.display = 'none';
