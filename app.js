@@ -442,7 +442,7 @@ async function checker(char_rel){
     }
 }
 
-function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
+async function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
     var rect = background[current_background - 1].getBoundingClientRect(); // 배경 크기 정보
     var charrect = main_character.getBoundingClientRect();
     var tx, nx;
@@ -484,7 +484,7 @@ function move_teacher(){ // 운동장 배경에서 선생님 움직이는 함수
     }
 }
 
-function move_ball(){ // 운동장 배경에서 공 움직이는 함수
+async function move_ball(){ // 운동장 배경에서 공 움직이는 함수
     var rect = background[current_background - 1].getBoundingClientRect(); // 배경 크기 정보
     var charrect = main_character.getBoundingClientRect();
     var tx, nx;
