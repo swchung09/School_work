@@ -466,6 +466,8 @@ async function move_teacher(){ // 운동장 배경에서 선생님 움직이는 
         document.getElementById('phone').style.display = 'none';
         document.getElementById('lock').style.display = 'none';
         document.getElementById('key').style.display = 'none';
+        document.getElementById('teacher').style.display = 'none';
+        document.getElementById('ball').style.display = 'none';
         for (let i = 0; i < 7; i++) {
             background[i].style.display = 'none';
         }
@@ -507,6 +509,8 @@ async function move_ball(){ // 운동장 배경에서 공 움직이는 함수
         document.getElementById('phone').style.display = 'none';
         document.getElementById('lock').style.display = 'none';
         document.getElementById('key').style.display = 'none';
+        document.getElementById('teacher').style.display = 'none';
+        document.getElementById('ball').style.display = 'none';
         for (let i = 0; i < 7; i++) {
             background[i].style.display = 'none';
         }
